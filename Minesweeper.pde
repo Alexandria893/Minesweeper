@@ -22,7 +22,7 @@ void setup ()
     {
         for(int c=0; c<NUM_COLS; c++)
          {
-            buttons = new MSButton[r][c];
+            buttons[r][c] = new MSButton(r,c);
          }       
     }
     setBombs();
@@ -50,6 +50,7 @@ public boolean isWon()
 public void displayLosingMessage()
 {
 
+    //your code here
 
 
 }
@@ -58,6 +59,7 @@ public void displayLosingMessage()
 public void displayWinningMessage()
 {
 
+    //your code here
 
 }
 
@@ -70,8 +72,8 @@ public class MSButton
     
     public MSButton ( int rr, int cc )
     {
-        // width = 400/NUM_COLS;
-        // height = 400/NUM_ROWS;
+         width = 400/NUM_COLS;
+         height = 400/NUM_ROWS;
         r = rr;
         c = cc; 
         x = c*width;
