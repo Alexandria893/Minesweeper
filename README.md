@@ -58,6 +58,12 @@ Game of Life sample work
 ***
 Minesweeper sample work
 -----------------------
+[Matthew](http://yeahmatts.github.io/Minesweeper/)  
+[Rebecca](http://rebeckur.github.io/Minesweeper/)  
+[Winnie](http://winnie3269.github.io/Minesweeper/)  
+[Evan](http://evhuang.github.io/Minesweeper/)  
+[Esther](http://elam2016.github.io/Minesweeper/)  
+[Raymond](http://elam2016.github.io/Minesweeper/)  
 [Aliya](http://aliyachambless.github.io/Minesweeper/)  
 [Brian](http://brianlam37.github.io/Minesweeper/)  
 [Ka Ki](http://alzhu1.github.io/Minesweeper/)  
@@ -67,14 +73,6 @@ Minesweeper sample work
 [Lin](http://lin00.github.io/Minesweeper/)  
 [Jimmy](http://furiouspenguins.github.io/Minesweeper/)  
 [Zachary](http://zachooz.github.io/Minesweeper/)  
-[Yufan](http://yuxu1.github.io/Minesweeper/)   
-[Alvan](http://bubbathetroll.github.io/Minesweeper/)   
 [Erika](http://bekutaa.github.io/Minesweeper/)   
-[Will](http://wifuchs.github.io/Minesweeper/)   
-[Christine](http://christinechao.github.io/Minesweeper/)   
 [Thomas](http://tomikam.github.io/Minesweeper/)   
-[Sereen](http://serrocks12.github.io/Minesweeper/)   
-[Clarence](http://clarencechen.github.io/Minesweeper/)   
-[Lucy](http://luchen825.github.io/Minesweeper/)   
-[Aaron](http://aaronchowapcs.github.io/Minesweeper/)   
-[Kirk](http://lubaruja.github.io/Minesweeper/)   
+ 
