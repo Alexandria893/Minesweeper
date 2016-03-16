@@ -19,6 +19,7 @@ void setup ()
     
     //your code to declare and initialize buttons goes here
     buttons= new MSButton[20][20];
+    bombs= new ArrayList<MSButton>();
 
     for(int r=0; r<NUM_ROWS; r++)
     {
@@ -31,22 +32,25 @@ void setup ()
 }
 
 
-/*public void setBombs()
+public void setBombs()
 {
-   int r = (int)(Math.random()*20);
-   int c =(int)(Math.random()*20);
-   
-   if(buttons[r][c].contains(bombs))
-   {
-     return true;
-   }
-   else 
-     buttons[r][c].add(bombs);
-}*/
+    //adjust for amount of bombs   
+    while(bombs.size()<8)
+    {
+    int r = (int)(Math.random()*20);
+    int c =(int)(Math.random()*20);
+        
+       if(bombs.contains(buttons[r][c]))
+       {
+       }
+       else 
+         bombs.add(buttons[r][c]);
+    }
+}
 
 public void draw ()
 {
-    background( 0 );
+    background(0);
     if(isWon())
         displayWinningMessage();
 }
@@ -92,6 +96,7 @@ public class MSButton
         marked = clicked = false;
         Interactive.add( this ); // register it with the manager
     }
+
     public boolean isMarked()
     {
         return marked;
@@ -102,13 +107,13 @@ public class MSButton
     }
     // called by manager
     
-    public void mousePressed () 
+    public void mousePressed() 
     {
         clicked = true;
         //your code here
     }
 
-    public void draw () 
+    public void draw() 
     {    
         if (marked)
             fill(0);
@@ -127,15 +132,26 @@ public class MSButton
     {
         label = newLabel;
     }
-    public boolean isValid(int r, int c)
+    public boolean isValid(int row, int col)
     {
-        //your code here
-        return false;
+    if(row<20 && col<20)
+            {
+            }  
+            return false;
     }
     public int countBombs(int row, int col)
     {
         int numBombs = 0;
-        //your code here
+        for(int cc=-1; cc<2; cc++)
+        {    
+            for(int rr=-1; rr<2; rr++)
+             {
+                if(rr !=0 && cc!=0 && isValid(row+rr,col+cc) && bombs.contains(buttons[row+rr][col+cc]))
+                    numBombs++;            
+
+             }   
+
+        }        
         return numBombs;
     }
 }
