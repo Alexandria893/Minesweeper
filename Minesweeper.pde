@@ -109,8 +109,23 @@ public class MSButton
     
     public void mousePressed() 
     {
+        //marks key to black for bomb
         clicked = true;
-        //your code here
+        //if `keyPressed` is `true`, toggles `marked` to either either `true` or `false`
+
+        if(keyPressed==true)
+            marked= !marked;
+        //else if `bombs` contains `this` button display the losing message
+        else if (bombs.contains(this))
+        {
+            displayLosingMessage();
+        }
+        //else if `countBombs` returns a number of neighboring mines greater than zero, set the label to that number
+
+       else if(countBombs(r,c)>0)
+        {
+            setLabel(""+countBombs(r,c));
+        }    
     }
 
     public void draw() 
