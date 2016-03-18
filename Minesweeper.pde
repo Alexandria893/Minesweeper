@@ -8,6 +8,8 @@ private final static int NUM_COLS=20;
 private MSButton[][] buttons;
 //ArrayList of just the minesweeper buttons that are mined
 private ArrayList <MSButton> bombs; 
+//number of bombs adjusts to number of colors 
+private int nB=NUM_ROWS*NUM_COLS/10;
 
 void setup ()
 {
@@ -18,7 +20,7 @@ void setup ()
     Interactive.make( this );
     
     //your code to declare and initialize buttons goes here
-    buttons= new MSButton[20][20];
+    buttons= new MSButton[NUM_ROWS][NUM_COLS];
     bombs= new ArrayList<MSButton>();
 
     for(int r=0; r<NUM_ROWS; r++)
@@ -35,16 +37,19 @@ void setup ()
 public void setBombs()
 {
     //adjust for amount of bombs   
-    while(bombs.size()<8)
+    while(bombs.size()<nB)
     {
-    int r = (int)(Math.random()*20);
-    int c =(int)(Math.random()*20);
+    int r = (int)(Math.random()*NUM_ROWS);
+    int c =(int)(Math.random()*NUM_ROWS);
         
        if(bombs.contains(buttons[r][c]))
        {
        }
        else 
+       {
          bombs.add(buttons[r][c]);
+         System.out.println(r+","+c);
+       }
     }
 }
 
@@ -63,10 +68,7 @@ public boolean isWon()
 
 public void displayLosingMessage()
 {
-
-    //your code here
-
-
+    buttons[10][10].setLabel("p");
 }
 
 
@@ -111,9 +113,9 @@ public class MSButton
     {
         //marks key to black for bomb
         clicked = true;
-        //if `keyPressed` is `true`, toggles `marked` to either either `true` or `false`
+        //if `mousePressed` is `true`, toggles `marked` to either either `true` or `false`
 
-        if(keyPressed==true)
+        if(mouseButton==RIGHT)
             marked= !marked;
         //else if `bombs` contains `this` button display the losing message
         else if (bombs.contains(this))
@@ -163,9 +165,7 @@ public class MSButton
              {
                 if(rr !=0 && cc!=0 && isValid(row+rr,col+cc) && bombs.contains(buttons[row+rr][col+cc]))
                     numBombs++;            
-
              }   
-
         }        
         return numBombs;
     }
