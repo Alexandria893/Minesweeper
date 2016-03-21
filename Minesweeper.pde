@@ -155,8 +155,14 @@ public class MSButton
 
     else if (countBombs(r, c)>0)
     {
-      setLabel(countBombs(r, c)+"");
+      setLabel(""+countBombs(r, c));
     }
+    // else recursively call `mousePressed` with the valid, unclicked, neighboring buttons 
+    else 
+        //mousePressed(countBombs(r,c));    
+        
+    }
+
   }
 
   public void draw() 
