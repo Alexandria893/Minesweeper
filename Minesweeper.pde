@@ -1,7 +1,7 @@
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
-private final static int NUM_ROWS=20;
-private final static int NUM_COLS=20;
+private final static int NUM_ROWS=5;
+private final static int NUM_COLS=5;
 //2d array of minesweeper buttons
 private MSButton[][] buttons;
 //ArrayList of just the minesweeper buttons that are mined
@@ -28,7 +28,6 @@ void setup ()
     }
   }
   setBombs();
-  
 }
 
 
@@ -40,11 +39,9 @@ public void setBombs()
     int r = (int)(Math.random()*NUM_ROWS);
     int c =(int)(Math.random()*NUM_ROWS);
 
-    if (bombs.contains(buttons[r][c]))
+    if (!bombs.contains(buttons[r][c]))
     {
-    } 
-    else 
-    {
+    
       bombs.add(buttons[r][c]);
       System.out.println(r+","+c);
     }
@@ -67,26 +64,13 @@ public boolean isWon()
 public void displayLosingMessage()
 {
   //board flash colors, fix later 
-  for(int i=0;i<4; i++)
-    {
-    if(i==1)
+  for (int i=0; i<4; i++)
+  {
+    if (i==1)
     {  
-    stroke(255,0,0);
-    //System.out.println("red");
-   //stroke((int)(Math.random())*255,(int)(Math.random())*255,(int)(Math.random())*255);
-    buttons[10][5].setLabel("G");
-    buttons[10][6].setLabel("A");
-    buttons[10][7].setLabel("M");
-    buttons[10][8].setLabel("E");
-    buttons[10][9].setLabel("O");
-    buttons[10][10].setLabel("V");
-    buttons[10][11].setLabel("E");
-    buttons[10][12].setLabel("R");   
-    }
-    if(i==2)
-    {
-      //System.out.println("blue");
-      stroke(0,0,255);
+      stroke(255, 0, 0);
+      //System.out.println("red");
+      //stroke((int)(Math.random())*255,(int)(Math.random())*255,(int)(Math.random())*255);
       buttons[10][5].setLabel("G");
       buttons[10][6].setLabel("A");
       buttons[10][7].setLabel("M");
@@ -94,8 +78,21 @@ public void displayLosingMessage()
       buttons[10][9].setLabel("O");
       buttons[10][10].setLabel("V");
       buttons[10][11].setLabel("E");
-      buttons[10][12].setLabel("R");    
-    }  
+      buttons[10][12].setLabel("R");
+    }
+    if (i==2)
+    {
+      //System.out.println("blue");
+      stroke(0, 0, 255);
+      buttons[10][5].setLabel("G");
+      buttons[10][6].setLabel("A");
+      buttons[10][7].setLabel("M");
+      buttons[10][8].setLabel("E");
+      buttons[10][9].setLabel("O");
+      buttons[10][10].setLabel("V");
+      buttons[10][11].setLabel("E");
+      buttons[10][12].setLabel("R");
+    }
   }
 }
 
@@ -122,8 +119,6 @@ public class MSButton
     y = r*height;
     label = "";
     marked = clicked = false;
-    
-
     Interactive.add( this ); // register it with the manager
   }
 
@@ -137,39 +132,45 @@ public class MSButton
   }
   // called by manager
 
-  public void mousePressed() 
+  public void mousePressed()
   {
-    clicked = true;
-
+    if (marked==true && mouseButton==LEFT )
+      clicked = true;
     //marks key to black for bomb
     //if `mousePressed` is `true`, toggles `marked` to either either `true` or `false`
-
     if (mouseButton==RIGHT)
       marked= !marked;
-        //else if `bombs` contains `this` button display the losing message
+    //else if `bombs` contains `this` button display the losing message
     else if (bombs.contains(this))
     {
       displayLosingMessage();
     }
     //else if `countBombs` returns a number of neighboring mines greater than zero, set the label to that number
-
-    else if (countBombs(r, c)>0)
+    else if (countBombs(r, c) > 0 && isMarked()==false) 
     {
-      setLabel(""+countBombs(r, c));
+      label=""+countBombs(r, c);
     }
     // else recursively call `mousePressed` with the valid, unclicked, neighboring buttons 
-    else 
-        //mousePressed(countBombs(r,c));    
-        
+    else
+    {
+      for (int i= -1; i < 2; i++) { 
+        for (int j = -1; j < 2; j++) { 
+          if (isValid(r+i, c+j)==true && buttons[r+i][c+j].isClicked() == false)
+          {
+            
+              //recursively call mousepressed
+              buttons[r+i][c+j].mousePressed();
+            
+          }
+        }
+      }
     }
-
   }
-
   public void draw() 
   {    
     if (marked)
       fill(0);
-        else if ( clicked && bombs.contains(this) ) 
+    else if ( clicked && bombs.contains(this) ) 
       fill(255, 0, 0);
     else if (clicked)
       fill( 200 );
@@ -186,8 +187,9 @@ public class MSButton
   }
   public boolean isValid(int row, int col)
   {
-    if (row<20 && col<20)
+    if (row>=0 && row<NUM_ROWS && col>=0 && col<NUM_COLS)
     {
+      return true;
     }  
     return false;
   }
@@ -198,7 +200,7 @@ public class MSButton
     {    
       for (int rr=-1; rr<2; rr++)
       {
-        if (rr !=0 && cc!=0 && isValid(row+rr, col+cc) && bombs.contains(buttons[row+rr][col+cc]))
+        if (isValid(row+rr, col+cc) && bombs.contains(buttons[row+rr][col+cc]))
           numBombs++;
       }
     }        
