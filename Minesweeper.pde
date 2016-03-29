@@ -1,13 +1,14 @@
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
-private final static int NUM_ROWS=5;
-private final static int NUM_COLS=5;
+private final static int NUM_ROWS=10;
+private final static int NUM_COLS=10;
 //2d array of minesweeper buttons
 private MSButton[][] buttons;
 //ArrayList of just the minesweeper buttons that are mined
 private ArrayList <MSButton> bombs; 
 //number of bombs adjusts to number of buttons 
 private int nB=NUM_ROWS*NUM_COLS/10;
+
 void setup ()
 {
   size(400, 400);
@@ -106,7 +107,7 @@ public class MSButton
 {
   private int r, c;
   private float x, y, width, height;
-  private boolean clicked, marked;
+  private boolean clicked, marked, gameOver;
   private String label;
 
   public MSButton ( int rr, int cc )
@@ -119,6 +120,7 @@ public class MSButton
     y = r*height;
     label = "";
     marked = clicked = false;
+    gameOver=false;
     Interactive.add( this ); // register it with the manager
   }
 
@@ -130,30 +132,43 @@ public class MSButton
   {
     return clicked;
   }
+  public boolean isGameOver()
+  {
+    return gameOver;
+  }
+
   // called by manager
 
   public void mousePressed()
   {
-    if (marked==true && mouseButton==LEFT )
+    //if `mousePressed` is `true`, toggles `marked` to either either `true` or `false`
+    if (mouseButton==LEFT)
       clicked = true;
     //marks key to black for bomb
-    //if `mousePressed` is `true`, toggles `marked` to either either `true` or `false`
     if (mouseButton==RIGHT)
-      marked= !marked;
+    {
+      clicked=false;
+      marked= true;
+    }
+    else if(marked!=false&& clicked!=true && mouseButton==RIGHT)
+      {
+        marked=false;
+      }
     //else if `bombs` contains `this` button display the losing message
-    else if (bombs.contains(this))
+    else if (bombs.contains(this) && marked==false && clicked==true)
     {
       displayLosingMessage();
+      gameOver=true;
     }
     //else if `countBombs` returns a number of neighboring mines greater than zero, set the label to that number
-    else if (countBombs(r, c) > 0 && isMarked()==false) 
+    else if (countBombs(r, c) > 0) 
     {
       label=""+countBombs(r, c);
     }
     // else recursively call `mousePressed` with the valid, unclicked, neighboring buttons 
     else
     {
-      for (int i= -1; i < 2; i++) { 
+        for (int i= -1; i < 2; i++) { 
         for (int j = -1; j < 2; j++) { 
           if (isValid(r+i, c+j)==true && buttons[r+i][c+j].isClicked() == false)
           {
