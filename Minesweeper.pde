@@ -1,7 +1,7 @@
 import de.bezier.guido.*;
 //Declare and initialize NUM_ROWS and NUM_COLS = 20
-private final static int NUM_ROWS=10;
-private final static int NUM_COLS=10;
+private final static int NUM_ROWS=20;
+private final static int NUM_COLS=20;
 //2d array of minesweeper buttons
 private MSButton[][] buttons;
 //ArrayList of just the minesweeper buttons that are mined
@@ -54,6 +54,7 @@ public void draw ()
   background(0);
   if (isWon())
     displayWinningMessage();
+
 }
 
 public boolean isWon()
@@ -64,14 +65,8 @@ public boolean isWon()
 
 public void displayLosingMessage()
 {
-  //board flash colors, fix later 
-  for (int i=0; i<4; i++)
-  {
-    if (i==1)
-    {  
-      stroke(255, 0, 0);
-      //System.out.println("red");
-      //stroke((int)(Math.random())*255,(int)(Math.random())*255,(int)(Math.random())*255);
+  
+  stroke(255,0,0);
       buttons[10][5].setLabel("G");
       buttons[10][6].setLabel("A");
       buttons[10][7].setLabel("M");
@@ -80,34 +75,25 @@ public void displayLosingMessage()
       buttons[10][10].setLabel("V");
       buttons[10][11].setLabel("E");
       buttons[10][12].setLabel("R");
-    }
-    if (i==2)
-    {
-      //System.out.println("blue");
-      stroke(0, 0, 255);
-      buttons[10][5].setLabel("G");
-      buttons[10][6].setLabel("A");
-      buttons[10][7].setLabel("M");
-      buttons[10][8].setLabel("E");
-      buttons[10][9].setLabel("O");
-      buttons[10][10].setLabel("V");
-      buttons[10][11].setLabel("E");
-      buttons[10][12].setLabel("R");
-    }
-  }
+    
 }
 
 public void displayWinningMessage()
 {
-
-  //your code here
+      stroke(255,0,0);
+      buttons[10][5].setLabel("Y");
+      buttons[10][6].setLabel("O");
+      buttons[10][7].setLabel("U");
+      buttons[10][10].setLabel("W");
+      buttons[10][11].setLabel("I");
+      buttons[10][12].setLabel("N");
 }
 
 public class MSButton
 {
   private int r, c;
   private float x, y, width, height;
-  private boolean clicked, marked, gameOver;
+  private boolean clicked, marked;
   private String label;
 
   public MSButton ( int rr, int cc )
@@ -120,7 +106,6 @@ public class MSButton
     y = r*height;
     label = "";
     marked = clicked = false;
-    gameOver=false;
     Interactive.add( this ); // register it with the manager
   }
 
@@ -132,12 +117,7 @@ public class MSButton
   {
     return clicked;
   }
-  public boolean isGameOver()
-  {
-    return gameOver;
-  }
-
-  // called by manager
+   // called by manager
 
   public void mousePressed()
   {
@@ -147,21 +127,16 @@ public class MSButton
     //marks key to black for bomb
     if (mouseButton==RIGHT)
     {
-      clicked=false;
-      marked= true;
+      marked= !marked;
     }
-    else if(marked!=false&& clicked!=true && mouseButton==RIGHT)
-      {
-        marked=false;
-      }
+    
     //else if `bombs` contains `this` button display the losing message
-    else if (bombs.contains(this) && marked==false && clicked==true)
-    {
+    else if (bombs.contains(this))
+    { 
       displayLosingMessage();
-      gameOver=true;
     }
     //else if `countBombs` returns a number of neighboring mines greater than zero, set the label to that number
-    else if (countBombs(r, c) > 0) 
+    else if (countBombs(r, c) > 0 && isMarked()==false) 
     {
       label=""+countBombs(r, c);
     }
@@ -171,8 +146,7 @@ public class MSButton
         for (int i= -1; i < 2; i++) { 
         for (int j = -1; j < 2; j++) { 
           if (isValid(r+i, c+j)==true && buttons[r+i][c+j].isClicked() == false)
-          {
-            
+          {            
               //recursively call mousepressed
               buttons[r+i][c+j].mousePressed();
             
@@ -182,8 +156,8 @@ public class MSButton
     }
   }
   public void draw() 
-  {    
-    if (marked)
+  {
+     if (marked)
       fill(0);
     else if ( clicked && bombs.contains(this) ) 
       fill(255, 0, 0);
