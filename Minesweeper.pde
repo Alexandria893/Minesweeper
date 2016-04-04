@@ -11,7 +11,7 @@ private int nB=NUM_ROWS*NUM_COLS/10;
 
 void setup ()
 {
-  size(400, 400);
+  size(800, 800);
   textAlign(CENTER, CENTER);
 
   // make the manager
